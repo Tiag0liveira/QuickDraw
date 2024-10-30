@@ -67,7 +67,7 @@ main {
 }
 
 .logo h1 b {
-  color: var(--background-color);
+  color: var(--gray-color);
 }
 
 .rightside {
