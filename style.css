@@ -130,6 +130,9 @@ main {
 .step-info {
   cursor: pointer;
   user-select: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .step {
@@ -152,6 +155,7 @@ main {
 .step-name {
   position: absolute;
   color: var(--gray-color);
+  margin-top: 24px;
 }
 
 #imageInput {
