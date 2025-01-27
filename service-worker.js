@@ -1,10 +1,10 @@
 const CACHE_NAME = "quick-draw-cache";
 const urlsToCache = [
-  "/",
-  "/index.html",
-  "/styles.css",
-  "/script.js",
-  "/favicon/android-chrome-192x192.png",
+  "",
+  "index.html",
+  "styles.css",
+  "script.js",
+  "favicon/android-chrome-192x192.png",
 ];
 
 // Install the service worker and cache resources
