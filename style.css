@@ -414,6 +414,7 @@ main {
   color: var(--gray-color);
   align-self: center;
   user-select: none;
+  text-align: center;
 }
 
 .card img {
