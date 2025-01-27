@@ -2,7 +2,7 @@ const CACHE_NAME = "quick-draw-cache";
 const urlsToCache = [
   "/",
   "/index.html",
-  "/styles.css",
+  "/style.css",
   "/script.js",
   "/favicon/android-chrome-192x192.png",
 ];
