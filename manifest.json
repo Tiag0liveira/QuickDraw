@@ -1,7 +1,7 @@
 {
   "name": "Quick Draw",
   "short_name": "QuickDraw",
-  "start_url": "/",
+  "start_url": "/QuickDraw/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
