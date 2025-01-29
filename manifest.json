@@ -21,7 +21,8 @@
     {
       "src": "/QuickDraw/screenshots/screenshot1.png",
       "sizes": "920x480",
-      "type": "image/png"
+      "type": "image/png",
+      "form_factor": "wide"
     },
     {
       "src": "/QuickDraw/screenshots/screenshot2.png",
