@@ -20,13 +20,12 @@
   "screenshots": [
     {
       "src": "/QuickDraw/screenshots/screenshot1.png",
-      "sizes": "1080x1920",
-      "type": "image/png",
-      "form_factor": "wide"
+      "sizes": "920x480",
+      "type": "image/png"
     },
     {
       "src": "/QuickDraw/screenshots/screenshot2.png",
-      "sizes": "1080x1920",
+      "sizes": "920x480",
       "type": "image/png"
     }
   ]
