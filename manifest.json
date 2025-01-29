@@ -16,5 +16,18 @@
       "sizes": "512x512",
       "type": "image/png"
     }
+  ],
+  "screenshots": [
+    {
+      "src": "/QuickDraw/screenshots/screenshot1.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/QuickDraw/screenshots/screenshot2.png",
+      "sizes": "1080x1920",
+      "type": "image/png"
+    }
   ]
 }
