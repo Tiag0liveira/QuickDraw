@@ -1,10 +1,10 @@
 <template>
   <label class="card-label">
-    <input type="radio" name="tournament" class="card-radio" :disabled="disabled" :checked="checked" />
-    <div class="card">
-      <h3>{{ title }}</h3>
-      <img :src="computedImageSrc" :alt="title" />
-      <span>{{ description }}</span>
+    <input type="radio" :name="name" class="card-radio" :disabled="disabled" :checked="checked" />
+    <div class="card" :class="smallCards">
+      <h3 v-if="title">{{ title }}</h3>
+      <img v-if="imageSrc" :src="computedImageSrc" :alt="title" />
+      <span v-if="description">{{ description }}</span>
     </div>
   </label>
 </template>
@@ -13,29 +13,31 @@
 import { computed, defineProps } from 'vue'
 
 const props = defineProps({
+  small: {
+    type: Boolean,
+  },
+  name: {
+    type: String,
+  },
   title: {
     type: String,
-    required: true,
   },
   imageSrc: {
     type: String,
-    required: true,
   },
   description: {
     type: String,
-    required: true,
   },
   disabled: {
     type: Boolean,
-    required: true,
   },
   checked: {
     type: Boolean,
-    required: false,
   },
 })
 
 const computedImageSrc = computed(() => `../../public/images/svg/${props.imageSrc}`)
+const smallCards = computed(() => (props.small ? 'small' : ''))
 </script>
 
 <style scoped>
@@ -57,6 +59,10 @@ const computedImageSrc = computed(() => `../../public/images/svg/${props.imageSr
   cursor: pointer;
   transition: all ease 0.2s;
   height: 310px;
+}
+.card.small {
+  width: auto;
+  height: auto;
 }
 .card-radio:checked + .card {
   outline: 1px solid #2ed573;

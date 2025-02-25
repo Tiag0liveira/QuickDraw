@@ -1,17 +1,13 @@
 <template>
-  <TheNavbar></TheNavbar>
+  <TheNavbar />
   <main>
-    <div>
-      <h2>Tournament Format</h2>
-      <div class="cards-nav">
-        <i class="fa-solid fa-angle-left" aria-hidden="true" style="color: #555555"></i>
-        <i class="fa-solid fa-angle-right" aria-hidden="true" style="color: #555555"></i>
-      </div>
-    </div>
+    <ProgressBar :progress="7.5" />
+    <div class="main">
+      <TheHeader title="Tournament Format" :navigable="true" />
 
-    <div class="cards-box">
-      <div class="cards" style="transform: translateX(0px)">
+      <CardsBox>
         <TournamentFormatCard
+          name="format"
           v-for="tournamentFormat in tournamentFormats"
           :key="tournamentFormat.title"
           :title="tournamentFormat.title"
@@ -20,18 +16,23 @@
           :disabled="tournamentFormat.disabled"
           :checked="tournamentFormat.checked"
         />
-      </div>
-    </div>
+      </CardsBox>
 
-    <RandomOptions text="Include a match for 3rd place" />
+      <RandomOptions text="Include a match for 3rd place" />
+    </div>
   </main>
+  <TheFooter showNext="/size" />
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import TheNavbar from '../components/nav/TheNavbar.vue'
+import ProgressBar from '../components/UI/ProgressBar.vue'
+import TheHeader from '../components/header/TheHeader.vue'
+import CardsBox from '../components/cards/CardsBox.vue'
 import TournamentFormatCard from '../components/cards/TournamentFormatCard.vue'
 import RandomOptions from '../components/UI/RandomOptions.vue'
+import TheFooter from '../components/foooter/TheFooter.vue'
 
 const tournamentFormats = ref([
   {
@@ -72,21 +73,17 @@ const tournamentFormats = ref([
 
 <style scoped>
 main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main {
   padding: 0 8%;
   height: calc(100vh - 222px);
   width: 100%;
   display: flex;
   flex-direction: column;
   margin-top: 32px;
-}
-.cards-box {
-  overflow: hidden;
-  padding-right: 1px;
-}
-.cards {
-  height: 318px;
-  padding: 4px;
-  display: flex;
-  gap: 40px;
 }
 </style>

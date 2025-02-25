@@ -60,6 +60,7 @@ nav {
   border-radius: 10px;
   font-weight: bold;
   font-size: 20px;
+  height: 42px;
   padding: 5px 30px;
   cursor: pointer;
   transition: all ease 0.5s;
