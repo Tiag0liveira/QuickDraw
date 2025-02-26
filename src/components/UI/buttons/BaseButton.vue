@@ -1,9 +1,12 @@
 <template>
-  <router-link :to="goTo">
+  <router-link v-if="goTo" :to="goTo">
     <button :class="classe">
       <p>{{ text }}</p>
     </button>
   </router-link>
+  <button v-else :class="classe">
+    <p>{{ text }}</p>
+  </button>
 </template>
 
 <script setup>

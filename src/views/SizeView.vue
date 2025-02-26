@@ -30,7 +30,7 @@
 
       <div class="number-info" v-if="showNumOfParticipants">
         <TheHeader title="Number of Participants" />
-        <BaseNumber dec="1" inc="1" min="2" startAt="2" max="32" />
+        <BaseNumber :dec="1" :inc="1" :min="2" :startAt="2" :max="32" />
       </div>
     </div>
   </main>
