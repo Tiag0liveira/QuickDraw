@@ -1,12 +1,64 @@
 <template>
   <div class="number-participants">
-    <button id="decrease">-</button>
-    <input type="number" id="participantInput" value="2" min="2" max="32" />
-    <button id="increase">+</button>
+    <button id="decrease" @click="decrease" :disabled="participantInput <= min">-</button>
+    <input
+      type="number"
+      id="participantInput"
+      v-model.number="participantInput"
+      :min="min"
+      :max="max"
+      @input="validateInput"
+    />
+    <button id="increase" @click="increase" :disabled="participantInput >= max">+</button>
   </div>
 </template>
 
-<script></script>
+<script setup>
+import { ref, computed, defineProps } from 'vue'
+
+const props = defineProps({
+  dec: {
+    type: Number,
+    required: true,
+  },
+  inc: {
+    type: Number,
+    required: true,
+  },
+  min: {
+    type: Number,
+    default: 1,
+  },
+  startAt: {
+    type: Number,
+    required: true,
+  },
+  max: {
+    type: Number,
+    default: 100,
+  },
+})
+
+const participantInput = ref(props.startAt)
+
+function decrease() {
+  const newValue = participantInput.value - props.dec
+  if (newValue >= props.min) participantInput.value = newValue
+}
+
+function increase() {
+  const newValue = Number(participantInput.value) + Number(props.inc)
+  if (newValue <= props.max) participantInput.value = newValue
+}
+
+function validateInput() {
+  if (isNaN(participantInput.value)) {
+    participantInput.value = props.min
+  } else {
+    participantInput.value = Math.min(props.max, Math.max(props.min, participantInput.value))
+  }
+}
+</script>
 
 <style scoped>
 .number-participants {
@@ -32,6 +84,20 @@
 #decrease:hover,
 #increase:hover {
   outline: 1px solid #2ed573;
+}
+
+#decrease:disabled,
+#increase:disabled {
+  background-color: #555555;
+  color: #cccccc;
+  cursor: default;
+}
+
+#decrease:disabled,
+:hover,
+#increase:disabled,
+:hover {
+  outline: none;
 }
 
 #participantInput {

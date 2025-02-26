@@ -15,10 +15,11 @@
           :description="tournamentFormat.description"
           :disabled="tournamentFormat.disabled"
           :checked="tournamentFormat.checked"
+          @click="tournamentFormat.disabled ? null : check(tournamentFormat.showOptions)"
         />
       </CardsBox>
 
-      <RandomOptions text="Include a match for 3rd place" />
+      <RandomOptions v-if="showRandom" text="Include a match for 3rd place" />
     </div>
   </main>
   <TheFooter showNext="/size" />
@@ -37,38 +38,53 @@ import TheFooter from '../components/foooter/TheFooter.vue'
 const tournamentFormats = ref([
   {
     title: 'Single Elimination',
-    imageSrc: 'single_elimination.svg',
+    imageSrc: '../../public/images/svg/single_elimination.svg',
     description: 'The loser of each match will be immediately eliminated from the tournament.',
     disabled: false,
     checked: true,
+    showOptions: true,
   },
   {
     title: 'Double Elimination',
-    imageSrc: 'double_elimination.svg',
+    imageSrc: '../../public/images/svg/double_elimination.svg',
     description: 'A participant gets eliminated upon having lost two games or matches.',
     disabled: true,
+    showOptions: false,
   },
   {
     title: 'Round Robin',
-    imageSrc: 'round_robin.svg',
+    imageSrc: '../../public/images/svg/round_robin.svg',
     description: 'Each participant meets all other participants in turn.',
     disabled: true,
+    showOptions: false,
   },
   {
     title: 'Swiss',
-    imageSrc: 'swiss.svg',
+    imageSrc: '../../public/images/svg/swiss.svg',
     description:
       'Participants are paired to ensure that each competitor plays opponents with a similar running score, but not the same opponent more than once.',
     disabled: true,
+    showOptions: false,
   },
   {
     title: 'Free-for-all',
-    imageSrc: 'free_for_all.svg',
+    imageSrc: '../../public/images/svg/free_for_all.svg',
     description:
       'Several participants are grouped in one match and the winners will advance to the next round.',
     disabled: true,
+    showOptions: false,
   },
 ])
+
+const showRandom = ref(true)
+
+function check(showOptions: Boolean) {
+  if (showOptions) {
+    showRandom.value = true
+  } else {
+    showRandom.value = false
+  }
+}
 </script>
 
 <style scoped>

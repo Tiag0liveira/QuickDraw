@@ -16,6 +16,30 @@ const router = createRouter({
       component: () => import('../views/SizeView.vue'),
     },
     {
+      path: '/teams',
+      name: 'teams',
+
+      component: () => import('../views/TeamsView.vue'),
+    },
+    {
+      path: '/league',
+      name: 'league',
+
+      component: () => import('../views/LeagueView.vue'),
+    },
+    {
+      path: '/name',
+      name: 'name',
+
+      component: () => import('../views/NameView.vue'),
+    },
+    {
+      path: '/bracket',
+      name: 'bracket',
+
+      component: () => import('../views/BracketView.vue'),
+    },
+    {
       path: '/login',
       name: 'login',
 

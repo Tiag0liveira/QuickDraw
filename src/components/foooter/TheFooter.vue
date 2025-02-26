@@ -22,7 +22,7 @@ const props = defineProps({
     type: String,
   },
   showDownload: {
-    type: String,
+    type: Boolean,
   },
 })
 </script>
