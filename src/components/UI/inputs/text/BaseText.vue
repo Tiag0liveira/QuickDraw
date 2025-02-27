@@ -1,13 +1,27 @@
 <template>
-  <input type="text" name="" id="tournament-name" />
+  <input
+    autocomplete="off"
+    type="text"
+    id="tournament-name"
+    :placeholder="placeholder"
+    :value="modelValue"
+    @input="$emit('update:modelValue', $event.target.value)"
+  />
 </template>
 
-<script></script>
+<script setup lang="ts">
+defineProps({
+  modelValue: String,
+  placeholder: String,
+})
+
+defineEmits(['update:modelValue'])
+</script>
 
 <style scoped>
 #tournament-name {
-  background-color: #444444;
-  color: #cccccc;
+  background-color: var(--navbar-color);
+  color: var(--gray-color);
   border: none;
   padding: 10px;
   display: flex;
@@ -18,6 +32,6 @@
 
 #tournament-name:hover,
 #tournament-name:focus-visible {
-  outline: 1px solid #2ed573;
+  outline: 1px solid var(--main-color);
 }
 </style>

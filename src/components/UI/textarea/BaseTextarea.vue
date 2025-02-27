@@ -1,17 +1,29 @@
 <template>
-  <textarea name="" id=""></textarea>
+  <textarea name="" id="" :value="modelValue" @input="onInput"></textarea>
 </template>
 
-<script></script>
+<script setup lang="ts">
+const props = defineProps({
+  modelValue: { type: String, required: true },
+  placeholder: { type: String, required: false },
+})
+
+const emit = defineEmits(['update:modelValue'])
+
+function onInput(event: Event) {
+  const value = (event.target as HTMLTextAreaElement).value
+  emit('update:modelValue', value)
+}
+</script>
 
 <style scoped>
 textarea {
-  background-color: #444444;
+  background-color: var(--navbar-color);
   width: 500px;
   height: 130px;
   border-radius: 6px;
   padding: 20px;
-  color: #cccccc;
+  color: var(--gray-color);
   border: none;
   resize: none;
   padding-right: 8px;
@@ -20,7 +32,7 @@ textarea {
 
 textarea:hover,
 textarea:focus-visible {
-  outline: 1px solid #2ed573;
+  outline: 1px solid var(--main-color);
 }
 
 textarea::-webkit-scrollbar {
@@ -29,7 +41,7 @@ textarea::-webkit-scrollbar {
 
 textarea::-webkit-scrollbar-thumb {
   border-radius: 50px;
-  background-color: #555555;
+  background-color: var(--scroll-color);
 }
 
 textarea::-webkit-scrollbar-track {

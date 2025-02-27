@@ -15,6 +15,7 @@
           :imageSrc="tournamentLeague.imageSrc"
           :disabled="tournamentLeague.disabled"
           :checked="tournamentLeague.checked"
+          @click="tournamentLeague.disabled ? null : check(tournamentLeague)"
         />
       </CardsBox>
 
@@ -26,6 +27,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useBracketStore } from '@/stores/useBracketStore'
 import TheNavbar from '../components/nav/TheNavbar.vue'
 import ProgressBar from '../components/UI/ProgressBar.vue'
 import TheHeader from '../components/header/TheHeader.vue'
@@ -34,57 +37,71 @@ import TournamentFormatCard from '../components/cards/TournamentFormatCard.vue'
 import RandomOptions from '../components/UI/RandomOptions.vue'
 import TheFooter from '../components/foooter/TheFooter.vue'
 
+const store = useBracketStore()
+const router = useRouter()
+
 const tournamentLeagues = ref([
   {
     title: 'UEFA Champions League',
-    imageSrc: '../../public/images/page3/only_one_championship.png',
+    imageSrc: '../../images/page3/only_one_championship.png',
     checked: true,
     disabled: false,
     showOptions: false,
   },
   {
     title: 'UEFA Europa League',
-    imageSrc: '../../public/images/page3/only_one_championship.png',
+    imageSrc: '../../images/page3/only_one_championship.png',
     disabled: false,
     showOptions: false,
   },
   {
     title: 'UEFA Super Cup',
-    imageSrc: '../../public/images/page3/only_one_championship.png',
+    imageSrc: '../../images/page3/only_one_championship.png',
     disabled: false,
     showOptions: true,
   },
   {
     title: 'CONMEBOL Libertadores',
-    imageSrc: '../../public/images/page3/only_one_championship.png',
+    imageSrc: '../../images/page3/only_one_championship.png',
     disabled: false,
     showOptions: true,
   },
   {
     title: 'UEFA Women`s Champions League',
-    imageSrc: '../../public/images/page3/only_one_championship.png',
+    imageSrc: '../../images/page3/only_one_championship.png',
     disabled: false,
     showOptions: true,
   },
   {
     title: 'FA Cup',
-    imageSrc: '../../public/images/page3/only_one_championship.png',
+    imageSrc: '../../images/page3/only_one_championship.png',
     disabled: false,
     showOptions: true,
   },
   {
     title: 'Coppa Italia',
-    imageSrc: '../../public/images/page3/only_one_championship.png',
+    imageSrc: '../../images/page3/only_one_championship.png',
     disabled: false,
     showOptions: true,
   },
   {
     title: 'DFB-Pokal',
-    imageSrc: '../../public/images/page3/only_one_championship.png',
+    imageSrc: '../../images/page3/only_one_championship.png',
     disabled: false,
     showOptions: true,
   },
 ])
+
+const showRandom = ref(true)
+
+function check(tournamentLeague: { title: string; showOptions: boolean }) {
+  store.setLeague(tournamentLeague.title)
+  if (tournamentLeague.showOptions) {
+    showRandom.value = true
+  } else {
+    showRandom.value = false
+  }
+}
 </script>
 
 <style scoped>

@@ -26,14 +26,12 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
-
-const props = defineProps({
-  progress: {
-    type: Number,
-    required: true,
-  },
-})
+const props = withDefaults(
+  defineProps<{
+    progress: number
+  }>(),
+  {},
+)
 
 function isStepActive(stepValue: number) {
   return props.progress >= stepValue
@@ -51,7 +49,7 @@ function isStepActive(stepValue: number) {
 .bar {
   width: 60%;
   height: 8px;
-  background-color: #444444;
+  background-color: var(--navbar-color);
   position: absolute;
   margin-top: 8px;
   border-radius: 50px;
@@ -59,7 +57,7 @@ function isStepActive(stepValue: number) {
 
 .bar.completed {
   width: 20%;
-  background-color: #2ed573;
+  background-color: var(--main-color);
 }
 
 .step-info {
@@ -71,8 +69,8 @@ function isStepActive(stepValue: number) {
 }
 
 .step {
-  background-color: #444444;
-  color: #cccccc;
+  background-color: var(--navbar-color);
+  color: var(--gray-color);
   width: 24px;
   height: 24px;
   border-radius: 50%;
@@ -83,13 +81,13 @@ function isStepActive(stepValue: number) {
 
 .step.completed,
 .step.active {
-  background-color: #2ed573;
-  color: #1f1f1f;
+  background-color: var(--main-color);
+  color: var(--background-color);
 }
 
 .step-name {
   position: absolute;
-  color: #cccccc;
+  color: var(--gray-color);
   margin-top: 24px;
 }
 </style>

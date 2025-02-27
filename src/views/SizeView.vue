@@ -11,7 +11,7 @@
           name="size"
           description="Use the number of participants provided below"
           @click="toggleParticipants"
-          :checked="true"
+          :checked="showParticipants"
         />
         <TournamentFormatCard
           small
@@ -24,13 +24,24 @@
       <div class="textarea-info" v-if="showParticipants">
         <TheHeader title="Participants" />
         <p>One name per line</p>
-        <BaseTextarea placeholder="Enter participants here" />
+        <BaseTextarea
+          placeholder="Enter participants here"
+          v-model="participantsText"
+          @input="updateParticipants"
+        />
         <RandomOptions text="Randomize names" />
       </div>
 
       <div class="number-info" v-if="showNumOfParticipants">
         <TheHeader title="Number of Participants" />
-        <BaseNumber :dec="1" :inc="1" :min="2" :startAt="2" :max="32" />
+        <BaseNumber
+          :step="1"
+          :min="2"
+          :startAt="participantsCount"
+          :max="32"
+          v-model="participantsCount"
+          @input="updateParticipants"
+        />
       </div>
     </div>
   </main>
@@ -38,7 +49,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { useBracketStore } from '@/stores/useBracketStore'
 import TheNavbar from '../components/nav/TheNavbar.vue'
 import ProgressBar from '../components/UI/ProgressBar.vue'
 import TheHeader from '../components/header/TheHeader.vue'
@@ -49,10 +61,30 @@ import RandomOptions from '../components/UI/RandomOptions.vue'
 import BaseNumber from '../components/UI/inputs/number/BaseNumber.vue'
 import TheFooter from '../components/foooter/TheFooter.vue'
 
+const store = useBracketStore()
+
 const showParticipants = ref(true)
 const showNumOfParticipants = ref(false)
 
-// Toggle functions
+const participantsText = ref(
+  store.participants && Array.isArray(store.participants) ? store.participants.join('\n') : '',
+)
+const participantsCount = ref(
+  store.participants && !Array.isArray(store.participants) ? store.participants : 2,
+)
+
+watch(participantsText, (newText) => {
+  const participantArray = newText
+    .split('\n')
+    .map((name) => name.trim())
+    .filter((name) => name !== '')
+  store.setParticipants(participantArray)
+})
+
+watch(participantsCount, (newCount) => {
+  store.setParticipants(newCount)
+})
+
 function toggleParticipants() {
   showParticipants.value = true
   showNumOfParticipants.value = false
@@ -61,6 +93,18 @@ function toggleParticipants() {
 function toggleNumOfParticipants() {
   showParticipants.value = false
   showNumOfParticipants.value = true
+}
+
+function updateParticipants() {
+  if (showParticipants.value) {
+    const participantArray = participantsText.value
+      .split('\n')
+      .map((name) => name.trim())
+      .filter((name) => name !== '')
+    store.setParticipants(participantArray)
+  } else if (showNumOfParticipants.value) {
+    store.setParticipants(participantsCount.value)
+  }
 }
 </script>
 

@@ -1,12 +1,6 @@
 <template>
   <label class="card-label">
-    <input 
-      type="radio" 
-      :name="name" 
-      class="card-radio" 
-      :disabled="disabled" 
-      :checked="checked" 
-    />
+    <input type="radio" :name="name" class="card-radio" :disabled="disabled" :checked="checked" />
     <div class="card" :class="[smallCards, selectionCards]">
       <h3 v-if="title">{{ title }}</h3>
       <img v-if="imageSrc" :src="imageSrc" :alt="title" />
@@ -15,39 +9,22 @@
   </label>
 </template>
 
-<script setup>
-import { computed, defineProps } from 'vue'
+<script setup lang="ts">
+import { computed } from 'vue'
 
-const props = defineProps({
-  small: {
-    type: Boolean,
-    default: false,
-  },
-  selections: {
-    type: Boolean,
-    default: false,
-  },
-  name: {
-    type: String,
-  },
-  title: {
-    type: String,
-  },
-  imageSrc: {
-    type: String,
-  },
-  description: {
-    type: String,
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-  checked: {
-    type: Boolean,
-    default: false,
-  },
-})
+const props = withDefaults(
+  defineProps<{
+    small?: boolean
+    selections?: boolean
+    name?: string
+    title?: string
+    imageSrc?: string
+    description?: string
+    disabled?: boolean
+    checked?: boolean
+  }>(),
+  {},
+)
 
 const smallCards = computed(() => (props.small ? 'small' : null))
 const selectionCards = computed(() => (props.selections ? 'selections' : null))
@@ -62,7 +39,7 @@ const selectionCards = computed(() => (props.selections ? 'selections' : null))
   cursor: default;
 }
 .card {
-  background-color: #444444;
+  background-color: var(--navbar-color);
   width: 240px;
   padding: 20px;
   display: flex;
@@ -81,7 +58,7 @@ const selectionCards = computed(() => (props.selections ? 'selections' : null))
   height: 220px;
 }
 .card-radio:checked + .card {
-  outline: 1px solid #2ed573;
+  outline: 1px solid var(--main-color);
 }
 .card h3 {
   align-self: center;
@@ -105,7 +82,7 @@ const selectionCards = computed(() => (props.selections ? 'selections' : null))
 
 .card span::-webkit-scrollbar-thumb {
   border-radius: 50px;
-  background-color: #555555;
+  background-color: var(--scroll-color);
 }
 
 .card span::-webkit-scrollbar-track {

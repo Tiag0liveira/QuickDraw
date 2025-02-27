@@ -4,7 +4,7 @@
     <ProgressBar :progress="60" />
     <div class="main">
       <TheHeader title="Tournament Name" />
-      <BaseText placeholder="Enter the name here" />
+      <BaseText placeholder="Enter the name here" v-model="store.name" />
 
       <div class="color-info">
         <TheHeader title="Tournament Color" />
@@ -16,12 +16,15 @@
 </template>
 
 <script setup lang="ts">
+import { useBracketStore } from '@/stores/useBracketStore'
 import TheNavbar from '../components/nav/TheNavbar.vue'
 import ProgressBar from '../components/UI/ProgressBar.vue'
 import TheHeader from '../components/header/TheHeader.vue'
 import BaseText from '../components/UI/inputs/text/BaseText.vue'
 import BaseColorPicker from '../components/UI/colorPicker/BaseColorPicker.vue'
 import TheFooter from '../components/foooter/TheFooter.vue'
+
+const store = useBracketStore()
 </script>
 
 <style scoped>

@@ -38,7 +38,7 @@
   outline: 2px solid var(--main-color);
 }
 .div-colors {
-  background: #444444;
+  background: var(--navbar-color);
   border-radius: 10px;
   padding: 12px;
   width: fit-content;
@@ -55,30 +55,30 @@
 }
 
 .div-colors label div:hover {
-  outline: 2px solid #2ed573;
+  outline: 2px solid var(--main-color);
 }
 
 .div-colors label:nth-child(1) div {
-  background: #cccccc;
+  background: var(--gray-color);
 }
 
 .div-colors label:nth-child(2) div {
-  background: #1f1f1f;
+  background: var(--background-color);
 }
 
 .div-colors label:nth-child(3) div {
-  background: #2ed573;
+  background: var(--main-color);
 }
 
 .div-colors label:nth-child(4) div {
-  background: #4a90e2;
+  background: var(--blue-color);
 }
 
 .div-colors label:nth-child(5) div {
-  background: #c0392b;
+  background: var(--red-color);
 }
 
 .div-colors label:nth-child(6) div {
-  background: #ffc300;
+  background: var(--yellow-color);
 }
 </style>

@@ -19,7 +19,7 @@
 nav {
   width: 100%;
   height: 60px;
-  background-color: #444444;
+  background-color: var(--navbar-color);
   padding: 0 4%;
   display: flex;
   align-items: center;
@@ -27,12 +27,12 @@ nav {
 }
 
 .logo h1 {
-  color: #2ed573;
+  color: var(--main-color);
   font-weight: bold;
 }
 
 .logo h1 b {
-  color: #cccccc;
+  color: var(--gray-color);
 }
 
 .rightside {
@@ -43,7 +43,7 @@ nav {
 .dropdown {
   display: flex;
   align-items: center;
-  color: #cccccc;
+  color: var(--gray-color);
   margin-right: 32px;
   cursor: pointer;
 }
@@ -54,8 +54,8 @@ nav {
 }
 
 .login {
-  border: 1px solid #2ed573;
-  color: #2ed573;
+  border: 1px solid var(--main-color);
+  color: var(--main-color);
   background-color: transparent;
   border-radius: 10px;
   font-weight: bold;
@@ -67,7 +67,7 @@ nav {
 }
 
 .login:hover {
-  color: #1f1f1f;
-  background-color: #2ed573;
+  color: var(--background-color);
+  background-color: var(--main-color);
 }
 </style>

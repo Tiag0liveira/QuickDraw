@@ -13,41 +13,37 @@
   </div>
 </template>
 
-<script setup>
-import { ref, computed, defineProps } from 'vue'
+<script setup lang="ts">
+import { ref, watch } from 'vue'
 
-const props = defineProps({
-  dec: {
-    type: Number,
-    required: true,
+const props = withDefaults(
+  defineProps<{
+    step: number
+    min?: number
+    startAt: number
+    max?: number
+  }>(),
+  {
+    min: 1,
+    max: 100,
   },
-  inc: {
-    type: Number,
-    required: true,
-  },
-  min: {
-    type: Number,
-    default: 1,
-  },
-  startAt: {
-    type: Number,
-    required: true,
-  },
-  max: {
-    type: Number,
-    default: 100,
-  },
-})
+)
+
+const emit = defineEmits(['update:modelValue'])
 
 const participantInput = ref(props.startAt)
 
+watch(participantInput, (newValue) => {
+  emit('update:modelValue', newValue)
+})
+
 function decrease() {
-  const newValue = participantInput.value - props.dec
+  const newValue = participantInput.value - props.step
   if (newValue >= props.min) participantInput.value = newValue
 }
 
 function increase() {
-  const newValue = Number(participantInput.value) + Number(props.inc)
+  const newValue = Number(participantInput.value) + Number(props.step)
   if (newValue <= props.max) participantInput.value = newValue
 }
 
@@ -62,7 +58,7 @@ function validateInput() {
 
 <style scoped>
 .number-participants {
-  background-color: #444444;
+  background-color: var(--navbar-color);
   display: flex;
   border-radius: 10px;
   height: 32px;
@@ -75,7 +71,7 @@ function validateInput() {
   border-radius: 10px;
   outline: none;
   border: none;
-  color: #cccccc;
+  color: var(--gray-color);
   height: 32px;
   width: 48px;
   cursor: pointer;
@@ -83,13 +79,13 @@ function validateInput() {
 
 #decrease:hover,
 #increase:hover {
-  outline: 1px solid #2ed573;
+  outline: 1px solid var(--main-color);
 }
 
 #decrease:disabled,
 #increase:disabled {
-  background-color: #555555;
-  color: #cccccc;
+  background-color: var(--scroll-color);
+  color: var(--gray-color);
   cursor: default;
 }
 
@@ -104,7 +100,7 @@ function validateInput() {
   background-color: transparent;
   outline: none;
   border: none;
-  color: #cccccc;
+  color: var(--gray-color);
   text-align: center;
   height: 32px;
   width: 80px;

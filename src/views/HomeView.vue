@@ -15,7 +15,7 @@
           :description="tournamentFormat.description"
           :disabled="tournamentFormat.disabled"
           :checked="tournamentFormat.checked"
-          @click="tournamentFormat.disabled ? null : check(tournamentFormat.showOptions)"
+          @click="tournamentFormat.disabled ? null : check(tournamentFormat)"
         />
       </CardsBox>
 
@@ -27,6 +27,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useBracketStore } from '@/stores/useBracketStore'
 import TheNavbar from '../components/nav/TheNavbar.vue'
 import ProgressBar from '../components/UI/ProgressBar.vue'
 import TheHeader from '../components/header/TheHeader.vue'
@@ -35,32 +37,34 @@ import TournamentFormatCard from '../components/cards/TournamentFormatCard.vue'
 import RandomOptions from '../components/UI/RandomOptions.vue'
 import TheFooter from '../components/foooter/TheFooter.vue'
 
+const store = useBracketStore()
+const router = useRouter()
+
 const tournamentFormats = ref([
   {
     title: 'Single Elimination',
-    imageSrc: '../../public/images/svg/single_elimination.svg',
+    imageSrc: '../../images/svg/single_elimination.svg',
     description: 'The loser of each match will be immediately eliminated from the tournament.',
-    disabled: false,
     checked: true,
     showOptions: true,
   },
   {
     title: 'Double Elimination',
-    imageSrc: '../../public/images/svg/double_elimination.svg',
+    imageSrc: '../../images/svg/double_elimination.svg',
     description: 'A participant gets eliminated upon having lost two games or matches.',
     disabled: true,
     showOptions: false,
   },
   {
     title: 'Round Robin',
-    imageSrc: '../../public/images/svg/round_robin.svg',
+    imageSrc: '../../images/svg/round_robin.svg',
     description: 'Each participant meets all other participants in turn.',
     disabled: true,
     showOptions: false,
   },
   {
     title: 'Swiss',
-    imageSrc: '../../public/images/svg/swiss.svg',
+    imageSrc: '../../images/svg/swiss.svg',
     description:
       'Participants are paired to ensure that each competitor plays opponents with a similar running score, but not the same opponent more than once.',
     disabled: true,
@@ -68,7 +72,7 @@ const tournamentFormats = ref([
   },
   {
     title: 'Free-for-all',
-    imageSrc: '../../public/images/svg/free_for_all.svg',
+    imageSrc: '../../images/svg/free_for_all.svg',
     description:
       'Several participants are grouped in one match and the winners will advance to the next round.',
     disabled: true,
@@ -78,8 +82,9 @@ const tournamentFormats = ref([
 
 const showRandom = ref(true)
 
-function check(showOptions: Boolean) {
-  if (showOptions) {
+function check(tournamentFormat: { title: string; showOptions: boolean }) {
+  store.setFormat(tournamentFormat.title)
+  if (tournamentFormat.showOptions) {
     showRandom.value = true
   } else {
     showRandom.value = false

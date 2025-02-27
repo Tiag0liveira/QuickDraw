@@ -1,11 +1,22 @@
 <template>
   <label class="switch">
-    <input type="checkbox" id="3rdplace-match" />
+    <input
+      type="checkbox"
+      id="3rdplace-match"
+      :checked="modelValue"
+      @change="$emit('update:modelValue', $event.target.checked)"
+    />
     <span class="slider rounded"></span>
   </label>
 </template>
 
-<script></script>
+<script setup lang="ts">
+defineProps({
+  modelValue: Boolean,
+})
+
+defineEmits(['update:modelValue'])
+</script>
 
 <style scoped>
 .switch {
@@ -28,7 +39,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #444444;
+  background-color: var(--navbar-color);
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
@@ -40,21 +51,21 @@
   width: 26px;
   left: 4px;
   bottom: 4px;
-  background-color: #2ed573;
+  background-color: var(--main-color);
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
 
 input:checked + .slider:before {
-  background-color: #444444;
+  background-color: var(--navbar-color);
 }
 
 input:checked + .slider {
-  background-color: #2ed573;
+  background-color: var(--main-color);
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #444444;
+  box-shadow: 0 0 1px var(--navbar-color);
 }
 
 input:checked + .slider:before {

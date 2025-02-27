@@ -9,18 +9,13 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
-
-const props = defineProps({
-  title: {
-    type: String,
-    required: true,
-  },
-  navigable: {
-    type: Boolean,
-    required: false,
-  },
-})
+const props = withDefaults(
+  defineProps<{
+    title: string
+    navigable?: boolean
+  }>(),
+  {},
+)
 </script>
 
 <style scoped>
@@ -37,7 +32,7 @@ const props = defineProps({
 }
 
 .cards-nav i {
-  color: #555555;
+  color: var(--scroll-color);
   cursor: pointer;
 }
 </style>

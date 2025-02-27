@@ -4,27 +4,30 @@
       <BaseButton v-if="showBack" text="Back" classe="back" :goTo="showBack" />
       <div></div>
       <BaseButton v-if="showNext" text="Next" classe="next" :goTo="showNext" />
-      <BaseButton v-if="showDownload" text="Download" classe="download" />
+      <BaseButton v-if="showDownload" text="Download" classe="download" @click="download" />
     </div>
   </footer>
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
-
 import BaseButton from '../UI/buttons/BaseButton.vue'
 
-const props = defineProps({
-  showBack: {
-    type: String,
-  },
-  showNext: {
-    type: String,
-  },
-  showDownload: {
-    type: Boolean,
-  },
-})
+const emit = defineEmits<{
+  (event: 'download'): void
+}>()
+
+const props = withDefaults(
+  defineProps<{
+    showBack?: string
+    showNext?: string
+    showDownload?: boolean
+  }>(),
+  {},
+)
+
+const download = () => {
+  emit('download')
+}
 </script>
 
 <style scoped>

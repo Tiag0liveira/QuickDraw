@@ -15,7 +15,7 @@
           :description="tournamentTeam.description"
           :disabled="tournamentTeam.disabled"
           :checked="tournamentTeam.checked"
-          @click="tournamentTeam.disabled ? null : check(tournamentTeam.showOptions)"
+          @click="tournamentTeam.disabled ? null : check(tournamentTeam)"
         />
       </CardsBox>
 
@@ -30,6 +30,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useBracketStore } from '@/stores/useBracketStore'
 import TheNavbar from '../components/nav/TheNavbar.vue'
 import ProgressBar from '../components/UI/ProgressBar.vue'
 import TheHeader from '../components/header/TheHeader.vue'
@@ -38,10 +40,13 @@ import TournamentFormatCard from '../components/cards/TournamentFormatCard.vue'
 import RandomOptions from '../components/UI/RandomOptions.vue'
 import TheFooter from '../components/foooter/TheFooter.vue'
 
+const store = useBracketStore()
+const router = useRouter()
+
 const tournamentTeams = ref([
   {
     title: 'Only One Championship',
-    imageSrc: '../../public/images/page3/only_one_championship.png',
+    imageSrc: '../../images/page3/only_one_championship.png',
     description: 'Only teams from the chosen championship.',
     checked: true,
     disabled: false,
@@ -49,21 +54,21 @@ const tournamentTeams = ref([
   },
   {
     title: 'Only One League',
-    imageSrc: '../../public/images/page3/only_one_league.png',
+    imageSrc: '../../images/page3/only_one_league.png',
     description: 'Only teams from the chosen league.',
     disabled: false,
     showOptions: false,
   },
   {
     title: 'Only Teams',
-    imageSrc: '../../public/images/page3/only_teams.png',
+    imageSrc: '../../images/page3/only_teams.png',
     description: 'All the teams from all leagues.',
     disabled: false,
     showOptions: true,
   },
   {
     title: 'Only Selections',
-    imageSrc: '../../public/images/page3/only_selections.png',
+    imageSrc: '../../images/page3/only_selections.png',
     description: 'All selections.',
     disabled: false,
     showOptions: true,
@@ -72,8 +77,9 @@ const tournamentTeams = ref([
 
 const showRandom = ref(false)
 
-function check(showOptions: Boolean) {
-  if (showOptions) {
+function check(tournamentTeams: { title: string; showOptions: boolean }) {
+  store.setTeams(tournamentTeams.title)
+  if (tournamentTeams.showOptions) {
     showRandom.value = true
   } else {
     showRandom.value = false

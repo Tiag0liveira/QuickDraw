@@ -9,22 +9,15 @@
   </button>
 </template>
 
-<script setup>
-import { defineProps } from 'vue'
-
-const props = defineProps({
-  goTo: {
-    type: String,
-  },
-  classe: {
-    type: String,
-    required: true,
-  },
-  text: {
-    type: String,
-    required: true,
-  },
-})
+<script setup lang="ts">
+const props = withDefaults(
+  defineProps<{
+    goTo?: string
+    classe: string
+    text: string
+  }>(),
+  {},
+)
 </script>
 
 <style scoped>
@@ -36,34 +29,34 @@ const props = defineProps({
   padding: 5px 30px;
   cursor: pointer;
   font-size: 20px;
-  color: #1f1f1f;
+  color: var(--background-color);
   border: none;
   transition: all ease 0.5s;
 }
 
 .back {
-  background-color: #444444;
+  background-color: var(--navbar-color);
 }
 .next,
 .download {
-  background-color: #2ed573;
+  background-color: var(--main-color);
 }
 
 .back p {
-  color: #cccccc;
+  color: var(--gray-color);
 }
 .next p,
 .download p {
-  color: #1f1f1f;
+  color: var(--background-color);
 }
 
 .back:hover {
-  outline: 1px solid #444444;
-  border: 1px solid #1f1f1f;
+  outline: 1px solid var(--navbar-color);
+  border: 1px solid var(--background-color);
 }
 .next:hover,
 .download:hover {
-  outline: 1px solid #2ed573;
-  border: 1px solid #1f1f1f;
+  outline: 1px solid var(--main-color);
+  border: 1px solid var(--background-color);
 }
 </style>

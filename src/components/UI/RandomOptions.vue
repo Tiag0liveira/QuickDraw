@@ -6,15 +6,18 @@
 </template>
 
 <script setup lang="ts">
+import { ref, watch } from 'vue'
 import SwitchButton from './buttons/SwitchButton.vue'
+import { useBracketStore } from '@/stores/useBracketStore'
 
-import { defineProps } from 'vue'
+const store = useBracketStore()
 
-const props = defineProps({
-  text: {
-    type: String,
-    required: true,
-  },
+const props = defineProps<{ text: string }>()
+
+const thirdPlace = ref(false)
+
+watch(thirdPlace, (newValue) => {
+  store.setThirdPlace(newValue)
 })
 </script>
 
