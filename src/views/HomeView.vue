@@ -3,7 +3,7 @@
   <main>
     <ProgressBar :progress="7.5" />
     <div class="main">
-      <TheHeader title="Tournament Format" :navigable="true" />
+      <TheHeader :title="i18n.global.t('TournamentFormat')" :navigable="true" />
 
       <CardsBox>
         <TournamentFormatCard
@@ -19,7 +19,7 @@
         />
       </CardsBox>
 
-      <RandomOptions v-if="showRandom" text="Include a match for 3rd place" />
+      <RandomOptions v-if="showRandom" :text="i18n.global.t('ThirdPlaceMatch')" />
     </div>
   </main>
   <TheFooter showNext="/size" />
@@ -29,6 +29,8 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useBracketStore } from '@/stores/useBracketStore'
+import { useI18n } from 'vue-i18n'
+import i18n from '@/plugins/i18n'
 import TheNavbar from '../components/nav/TheNavbar.vue'
 import ProgressBar from '../components/UI/ProgressBar.vue'
 import TheHeader from '../components/header/TheHeader.vue'
@@ -42,39 +44,37 @@ const router = useRouter()
 
 const tournamentFormats = ref([
   {
-    title: 'Single Elimination',
+    title: i18n.global.t('SingleElimination'),
     imageSrc: '../../images/svg/single_elimination.svg',
-    description: 'The loser of each match will be immediately eliminated from the tournament.',
+    description: i18n.global.t('SingleEliminationDesc'),
     checked: true,
     showOptions: true,
   },
   {
-    title: 'Double Elimination',
+    title: i18n.global.t('DoubleElimination'),
     imageSrc: '../../images/svg/double_elimination.svg',
-    description: 'A participant gets eliminated upon having lost two games or matches.',
+    description: i18n.global.t('DoubleEliminationDesc'),
     disabled: true,
     showOptions: false,
   },
   {
-    title: 'Round Robin',
+    title: i18n.global.t('RoundRobin'),
     imageSrc: '../../images/svg/round_robin.svg',
-    description: 'Each participant meets all other participants in turn.',
+    description: i18n.global.t('RoundRobinDesc'),
     disabled: true,
     showOptions: false,
   },
   {
-    title: 'Swiss',
+    title: i18n.global.t('Swiss'),
     imageSrc: '../../images/svg/swiss.svg',
-    description:
-      'Participants are paired to ensure that each competitor plays opponents with a similar running score, but not the same opponent more than once.',
+    description: i18n.global.t('SwissDesc'),
     disabled: true,
     showOptions: false,
   },
   {
-    title: 'Free-for-all',
+    title: i18n.global.t('FreeForAll'),
     imageSrc: '../../images/svg/free_for_all.svg',
-    description:
-      'Several participants are grouped in one match and the winners will advance to the next round.',
+    description: i18n.global.t('FreeForAllDesc'),
     disabled: true,
     showOptions: false,
   },

@@ -4,28 +4,31 @@
     <div class="bar completed" :style="{ width: progress + '%' }"></div>
     <div class="step-info">
       <div class="step" :class="{ active: isStepActive(7.5) }">1</div>
-      <p class="step-name">Format</p>
+      <p class="step-name">{{ i18n.global.t('Format') }}</p>
     </div>
     <div class="step-info">
       <div class="step" :class="{ active: isStepActive(22.5) }">2</div>
-      <p class="step-name">Size</p>
+      <p class="step-name">{{ i18n.global.t('Size') }}</p>
     </div>
     <div class="step-info">
       <div class="step" :class="{ active: isStepActive(37.5) }">3</div>
-      <p class="step-name">Teams</p>
+      <p class="step-name">{{ i18n.global.t('Teams') }}</p>
     </div>
     <div class="step-info">
       <div class="step" :class="{ active: isStepActive(52.5) }">4</div>
-      <p class="step-name">League</p>
+      <p class="step-name">{{ i18n.global.t('League') }}</p>
     </div>
     <div class="step-info">
       <div class="step" :class="{ active: isStepActive(60) }">5</div>
-      <p class="step-name">Name</p>
+      <p class="step-name">{{ i18n.global.t('Name') }}</p>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+import i18n from '@/plugins/i18n'
+
 const props = withDefaults(
   defineProps<{
     progress: number

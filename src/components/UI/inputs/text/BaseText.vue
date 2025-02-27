@@ -1,7 +1,7 @@
 <template>
   <input
     autocomplete="off"
-    type="text"
+    :type="pass ? 'password' : 'text'"
     id="tournament-name"
     :placeholder="placeholder"
     :value="modelValue"
@@ -13,6 +13,7 @@
 defineProps({
   modelValue: String,
   placeholder: String,
+  pass: Boolean,
 })
 
 defineEmits(['update:modelValue'])

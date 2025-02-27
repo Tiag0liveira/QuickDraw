@@ -3,7 +3,7 @@
   <main>
     <ProgressBar :progress="37.5" />
     <div class="main">
-      <TheHeader title="Teams" :navigable="true" />
+      <TheHeader :title="i18n.global.t('Teams')" :navigable="true" />
 
       <CardsBox>
         <TournamentFormatCard
@@ -21,7 +21,7 @@
 
       <RandomOptions
         v-if="showRandom"
-        text="Randomly distributes selections or teams among the participants"
+        :text="i18n.global.t('RandomTeams')"
       />
     </div>
   </main>
@@ -32,6 +32,8 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useBracketStore } from '@/stores/useBracketStore'
+import { useI18n } from 'vue-i18n'
+import i18n from '@/plugins/i18n'
 import TheNavbar from '../components/nav/TheNavbar.vue'
 import ProgressBar from '../components/UI/ProgressBar.vue'
 import TheHeader from '../components/header/TheHeader.vue'
@@ -45,31 +47,31 @@ const router = useRouter()
 
 const tournamentTeams = ref([
   {
-    title: 'Only One Championship',
+    title: i18n.global.t('OnlyOneChampionship'),
     imageSrc: '../../images/page3/only_one_championship.png',
-    description: 'Only teams from the chosen championship.',
+    description: i18n.global.t('OnlyOneChampionshipDesc'),
     checked: true,
     disabled: false,
     showOptions: false,
   },
   {
-    title: 'Only One League',
+    title: i18n.global.t('OnlyOneLeague'),
     imageSrc: '../../images/page3/only_one_league.png',
-    description: 'Only teams from the chosen league.',
+    description: i18n.global.t('OnlyOneLeagueDesc'),
     disabled: false,
     showOptions: false,
   },
   {
-    title: 'Only Teams',
+    title: i18n.global.t('OnlyTeams'),
     imageSrc: '../../images/page3/only_teams.png',
-    description: 'All the teams from all leagues.',
+    description: i18n.global.t('OnlyTeamsDesc'),
     disabled: false,
     showOptions: true,
   },
   {
-    title: 'Only Selections',
+    title: i18n.global.t('OnlySelections'),
     imageSrc: '../../images/page3/only_selections.png',
-    description: 'All selections.',
+    description: i18n.global.t('OnlySelectionsDesc'),
     disabled: false,
     showOptions: true,
   },

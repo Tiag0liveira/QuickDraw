@@ -3,7 +3,7 @@
   <main>
     <ProgressBar :progress="52.5" />
     <div class="main">
-      <TheHeader title="League" :navigable="true" />
+      <TheHeader :title="i18n.global.t('League')" :navigable="true" />
 
       <CardsBox small>
         <TournamentFormatCard
@@ -19,7 +19,7 @@
         />
       </CardsBox>
 
-      <RandomOptions text="Randomly choose a league" />
+      <RandomOptions :text="i18n.global.t('RandomLeague')" />
     </div>
   </main>
   <TheFooter showBack="/teams" showNext="/name" />
@@ -29,6 +29,8 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useBracketStore } from '@/stores/useBracketStore'
+import { useI18n } from 'vue-i18n'
+import i18n from '@/plugins/i18n'
 import TheNavbar from '../components/nav/TheNavbar.vue'
 import ProgressBar from '../components/UI/ProgressBar.vue'
 import TheHeader from '../components/header/TheHeader.vue'

@@ -1,5 +1,11 @@
 <template>
-  <textarea name="" id="" :value="modelValue" @input="onInput"></textarea>
+  <textarea
+    name=""
+    id=""
+    :value="modelValue"
+    :placeholder="placeholder"
+    @input="onInput"
+  ></textarea>
 </template>
 
 <script setup lang="ts">

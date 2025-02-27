@@ -1,15 +1,17 @@
 <template>
   <footer>
     <div class="page-nav">
-      <BaseButton v-if="showBack" text="Back" classe="back" :goTo="showBack" />
+      <BaseButton v-if="showBack" :text="i18n.global.t('BackBtn')" classe="back" :goTo="showBack" />
       <div></div>
-      <BaseButton v-if="showNext" text="Next" classe="next" :goTo="showNext" />
-      <BaseButton v-if="showDownload" text="Download" classe="download" @click="download" />
+      <BaseButton v-if="showNext" :text="i18n.global.t('NextBtn')" classe="next" :goTo="showNext" />
+      <BaseButton v-if="showDownload" :text="i18n.global.t('Download')" classe="download" @click="download" />
     </div>
   </footer>
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+import i18n from '@/plugins/i18n'
 import BaseButton from '../UI/buttons/BaseButton.vue'
 
 const emit = defineEmits<{

@@ -4,16 +4,31 @@
       <h1>Quick<b>Draw</b></h1>
     </div>
     <div class="rightside">
-      <div class="dropdown">
-        <p>ENG</p>
-        <i class="fa-solid fa-caret-down"></i>
-      </div>
-      <RouterLink to="/login"><button class="login">Login</button></RouterLink>
+      <select @change="changeLanguage($event.target.value)" id="language-select" :value="locale">
+        <option value="en">EN</option>
+        <option value="pt">PT</option>
+      </select>
+      <RouterLink to="/login">
+        <button class="login">Login</button>
+      </RouterLink>
     </div>
   </nav>
 </template>
 
-<script></script>
+<script setup>
+import { useI18n } from 'vue-i18n'
+
+const { locale } = useI18n()
+
+function changeLanguage(lang) {
+  locale.value = lang
+  localStorage.setItem('user-lang', lang)
+}
+
+if (localStorage.getItem('user-lang')) {
+  locale.value = localStorage.getItem('user-lang')
+}
+</script>
 
 <style scoped>
 nav {

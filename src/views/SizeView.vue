@@ -3,37 +3,37 @@
   <main>
     <ProgressBar :progress="22.5" />
     <div class="main">
-      <TheHeader title="Bracket Size" />
+      <TheHeader :title="i18n.global.t('TournamentSize')" />
 
       <CardsBox small>
         <TournamentFormatCard
           small
           name="size"
-          description="Use the number of participants provided below"
+          :description="i18n.global.t('ParticipantsByName')"
           @click="toggleParticipants"
           :checked="showParticipants"
         />
         <TournamentFormatCard
           small
           name="size"
-          description="Use the number of participants provided below"
+          :description="i18n.global.t('ParticipantsByNumber')"
           @click="toggleNumOfParticipants"
         />
       </CardsBox>
 
       <div class="textarea-info" v-if="showParticipants">
-        <TheHeader title="Participants" />
-        <p>One name per line</p>
+        <TheHeader :title="i18n.global.t('Participants')" />
+        <p>{{ i18n.global.t('NamePerLine') }}</p>
         <BaseTextarea
-          placeholder="Enter participants here"
+          :placeholder="i18n.global.t('TextareaPlaceholder')"
           v-model="participantsText"
           @input="updateParticipants"
         />
-        <RandomOptions text="Randomize names" />
+        <RandomOptions :text="i18n.global.t('RandomizeNames')" />
       </div>
 
       <div class="number-info" v-if="showNumOfParticipants">
-        <TheHeader title="Number of Participants" />
+        <TheHeader :title="i18n.global.t('NumberOfParticipants')" />
         <BaseNumber
           :step="1"
           :min="2"
@@ -51,6 +51,8 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { useBracketStore } from '@/stores/useBracketStore'
+import { useI18n } from 'vue-i18n'
+import i18n from '@/plugins/i18n'
 import TheNavbar from '../components/nav/TheNavbar.vue'
 import ProgressBar from '../components/UI/ProgressBar.vue'
 import TheHeader from '../components/header/TheHeader.vue'

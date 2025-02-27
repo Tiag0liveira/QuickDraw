@@ -3,11 +3,11 @@
   <main>
     <ProgressBar :progress="60" />
     <div class="main">
-      <TheHeader title="Tournament Name" />
-      <BaseText placeholder="Enter the name here" v-model="store.name" />
+      <TheHeader :title="i18n.global.t('TournamentName')" />
+      <BaseText :placeholder="i18n.global.t('TournamentNamePlaceholder')" v-model="store.name" />
 
       <div class="color-info">
-        <TheHeader title="Tournament Color" />
+        <TheHeader :title="i18n.global.t('TournamentColor')" />
         <BaseColorPicker />
       </div>
     </div>
@@ -17,6 +17,8 @@
 
 <script setup lang="ts">
 import { useBracketStore } from '@/stores/useBracketStore'
+import { useI18n } from 'vue-i18n'
+import i18n from '@/plugins/i18n'
 import TheNavbar from '../components/nav/TheNavbar.vue'
 import ProgressBar from '../components/UI/ProgressBar.vue'
 import TheHeader from '../components/header/TheHeader.vue'
