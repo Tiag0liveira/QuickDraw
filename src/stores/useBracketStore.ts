@@ -15,15 +15,15 @@ interface BracketState {
 
 export const useBracketStore = defineStore('bracket', {
   state: (): BracketState => ({
-    format: '',
+    format: 'Single Elimination',
     thirdPlace: false,
-    participants: 0,
+    participants: 2,
     randomizeNames: false,
     teams: '',
     league: '',
     randomLeague: false,
     name: '',
-    color: '',
+    color: 'var(--gray-color)',
   }),
 
   actions: {

@@ -8,8 +8,13 @@
       crossorigin="anonymous"
       class="background-bracket hidden"
     />
-    <h1 id="txt-tournament-name">{{ bracketStore.name }}</h1>
-    <TheSingleElimination :bracketSize="bracketStore.participants" />
+    <h1 id="txt-tournament-name" :style="{ color: bracketStore.color }">
+      {{ bracketStore.name }}
+    </h1>
+    <TheSingleElimination
+      :bracketSize="bracketStore.participants"
+      :borderColor="bracketStore.color"
+    />
   </main>
   <TheFooter :showBack="'/name'" :showDownload="true" @download="captureAndDownload" />
 </template>

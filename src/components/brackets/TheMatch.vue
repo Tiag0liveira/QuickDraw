@@ -27,7 +27,7 @@ defineProps({
     background-color 0.3s,
     transform 0.3s;
   min-height: 99px;
-  border: 2px solid rgb(204, 204, 204);
+  border: 2px solid var(--gray-color);
   display: flex;
   flex-direction: column;
   align-items: center;

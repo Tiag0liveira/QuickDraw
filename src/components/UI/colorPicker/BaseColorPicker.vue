@@ -1,33 +1,33 @@
 <template>
   <div class="div-colors">
-    <label>
-      <input type="radio" name="colors" class="color-radio" checked />
-      <div></div>
-    </label>
-    <label>
-      <input type="radio" name="colors" class="color-radio" />
-      <div></div>
-    </label>
-    <label>
-      <input type="radio" name="colors" class="color-radio" />
-      <div></div>
-    </label>
-    <label>
-      <input type="radio" name="colors" class="color-radio" />
-      <div></div>
-    </label>
-    <label>
-      <input type="radio" name="colors" class="color-radio" />
-      <div></div>
-    </label>
-    <label>
-      <input type="radio" name="colors" class="color-radio" />
-      <div></div>
+    <label v-for="(color, index) in colors" :key="index">
+      <input
+        type="radio"
+        name="colors"
+        class="color-radio"
+        :value="color"
+        :checked="store.color === color"
+        @change="store.setColor(color)"
+      />
+      <div :style="{ backgroundColor: color }"></div>
     </label>
   </div>
 </template>
 
-<script></script>
+<script setup lang="ts">
+import { useBracketStore } from '@/stores/useBracketStore'
+
+const store = useBracketStore()
+
+const colors = [
+  'var(--gray-color)',
+  'var(--background-color)',
+  'var(--main-color)',
+  'var(--blue-color)',
+  'var(--red-color)',
+  'var(--yellow-color)',
+]
+</script>
 
 <style scoped>
 .color-radio {
@@ -52,33 +52,5 @@
   height: 32px;
   border-radius: 100%;
   cursor: pointer;
-}
-
-.div-colors label div:hover {
-  outline: 2px solid var(--main-color);
-}
-
-.div-colors label:nth-child(1) div {
-  background: var(--gray-color);
-}
-
-.div-colors label:nth-child(2) div {
-  background: var(--background-color);
-}
-
-.div-colors label:nth-child(3) div {
-  background: var(--main-color);
-}
-
-.div-colors label:nth-child(4) div {
-  background: var(--blue-color);
-}
-
-.div-colors label:nth-child(5) div {
-  background: var(--red-color);
-}
-
-.div-colors label:nth-child(6) div {
-  background: var(--yellow-color);
 }
 </style>

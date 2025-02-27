@@ -2,24 +2,28 @@
   <div id="bracketContainer" class="bracket">
     <TheRound
       v-if="firstRoundMatches.length > 0"
+      :borderColor="borderColor"
       :bracketSize="numberOfParticipants"
       :matches="firstRoundMatches"
       :style="{ height: roundHeight + 'px' }"
     />
     <TheRound
       v-if="secondRoundMatches.length > 0"
+      :borderColor="borderColor"
       :bracketSize="numberOfParticipants"
       :matches="secondRoundMatches"
       :style="{ height: roundHeight + 'px' }"
     />
     <TheRound
       v-if="thirdRoundMatches.length > 0"
+      :borderColor="borderColor"
       :bracketSize="numberOfParticipants"
       :matches="thirdRoundMatches"
       :style="{ height: roundHeight + 'px' }"
     />
     <TheRound
       v-if="finalMatch.length > 0"
+      :borderColor="borderColor"
       :bracketSize="numberOfParticipants"
       :matches="finalMatch"
       :style="{ height: roundHeight + 'px' }"
@@ -34,6 +38,10 @@ import TheRound from './TheRound.vue'
 const props = defineProps({
   bracketSize: {
     type: [Number, Array] as PropType<number | string[]>,
+    required: true,
+  },
+  borderColor: {
+    type: String,
     required: true,
   },
 })

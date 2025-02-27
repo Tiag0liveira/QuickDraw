@@ -1,6 +1,7 @@
 <template>
   <div class="round">
     <TheMatch
+      :style="{ borderColor: borderColor }"
       v-for="(match, index) in matches"
       :key="index"
       :player1="match.player1"
@@ -14,6 +15,7 @@ import TheMatch from './TheMatch.vue'
 
 defineProps({
   matches: Array,
+  borderColor: String,
 })
 </script>
 
