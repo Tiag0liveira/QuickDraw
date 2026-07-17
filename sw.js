@@ -1,7 +1,7 @@
 // Service worker mínimo — o suficiente para o Chrome considerar a app instalável
 // e para a página abrir offline depois da primeira visita.
 
-const CACHE = "acasa-teste-v1";
+const CACHE = "acasa-teste-v2";
 const FICHEIROS = [
   "./",
   "./index.html",

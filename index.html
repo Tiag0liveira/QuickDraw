@@ -2,14 +2,12 @@
 <html lang="pt-PT">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>A Casa — Teste PWA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <title>A Casa</title>
 
-  <!-- Manifest: é isto que torna a página "instalável" -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#14453D">
 
-  <!-- Específico do iOS (o Safari ignora parte do manifest) -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="A Casa">
@@ -24,47 +22,211 @@
       --ok: #3FA96C;
       --erro: #D95B4A;
       --texto: #22302C;
+      --cinza: #8A968F;
+      --nav-altura: 62px;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; }
     body {
       font-family: system-ui, -apple-system, sans-serif;
       background: var(--creme);
       color: var(--texto);
-      min-height: 100vh;
+      /* toques de app nativa: sem seleção de texto nem highlight azul ao tocar */
+      -webkit-tap-highlight-color: transparent;
+      -webkit-user-select: none;
+      user-select: none;
+      overscroll-behavior-y: none;
+    }
+    input, textarea { -webkit-user-select: text; user-select: text; }
+
+    /* ===== Barra de topo ===== */
+    .topo {
+      background: var(--verde);
+      color: var(--creme);
+      padding: calc(env(safe-area-inset-top, 0px) + 14px) 18px 14px;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      padding: 24px 16px 48px;
+      gap: 10px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
-    header {
-      text-align: center;
-      margin: 24px 0 32px;
+    .topo img { width: 30px; height: 30px; border-radius: 8px; }
+    .topo h1 { font-size: 1.1rem; font-weight: 600; flex: 1; }
+    #badgeOffline {
+      display: none;
+      font-size: 0.72rem;
+      background: var(--ambar);
+      color: var(--verde);
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 999px;
     }
-    .logo {
-      width: 72px; height: 72px;
-      border-radius: 18px;
-      margin: 0 auto 16px;
-      display: block;
+
+    /* ===== Conteúdo / abas ===== */
+    main {
+      padding: 16px 16px calc(var(--nav-altura) + env(safe-area-inset-bottom, 0px) + 84px);
+      max-width: 480px;
+      margin: 0 auto;
     }
-    h1 { font-size: 1.6rem; color: var(--verde); }
-    header p { color: #5C6B66; margin-top: 6px; font-size: 0.95rem; }
+    .aba { display: none; animation: entrar 0.18s ease; }
+    .aba.ativa { display: block; }
+    @keyframes entrar {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .aba { animation: none; }
+    }
 
     .cartao {
       background: #fff;
       border-radius: 14px;
-      padding: 20px;
-      width: 100%;
-      max-width: 420px;
+      padding: 18px;
       box-shadow: 0 2px 10px rgba(20, 69, 61, 0.08);
-      margin-bottom: 16px;
-    }
-    .cartao h2 {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: #8A968F;
       margin-bottom: 14px;
     }
+    .cartao h2 {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--cinza);
+      margin-bottom: 12px;
+    }
+
+    /* ===== Aba Despesas ===== */
+    .resumo {
+      background: var(--verde);
+      color: var(--creme);
+      text-align: center;
+      padding: 22px 18px;
+    }
+    .resumo .valor { font-size: 2.2rem; font-weight: 700; letter-spacing: -0.02em; }
+    .resumo .legenda { font-size: 0.85rem; opacity: 0.75; margin-top: 4px; }
+    .resumo .porpessoa { font-size: 0.9rem; color: var(--ambar); font-weight: 600; margin-top: 10px; }
+
+    .despesa {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #EFEAE0;
+    }
+    .despesa:last-child { border-bottom: none; }
+    .despesa .icone {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      background: var(--creme);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .despesa .info { flex: 1; min-width: 0; }
+    .despesa .nome { font-weight: 600; font-size: 0.95rem; }
+    .despesa .quem { font-size: 0.78rem; color: var(--cinza); margin-top: 2px; }
+    .despesa .preco { font-weight: 700; color: var(--verde); }
+    .despesa .apagar {
+      border: none; background: none;
+      color: #C9C2B4; font-size: 1.1rem;
+      padding: 6px; cursor: pointer;
+    }
+    #listaVazia { text-align: center; color: var(--cinza); font-size: 0.9rem; padding: 18px 0; }
+
+    /* ===== Formulário (folha deslizante) ===== */
+    #fab {
+      position: fixed;
+      right: 18px;
+      bottom: calc(var(--nav-altura) + env(safe-area-inset-bottom, 0px) + 16px);
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      border: none;
+      background: var(--ambar);
+      color: var(--verde);
+      font-size: 1.7rem;
+      font-weight: 600;
+      box-shadow: 0 4px 14px rgba(20, 69, 61, 0.3);
+      cursor: pointer;
+      z-index: 15;
+      transition: transform 0.15s ease;
+    }
+    #fab:active { transform: scale(0.92); }
+
+    #veu {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(20, 48, 44, 0.45);
+      z-index: 20;
+    }
+    #folha {
+      position: fixed;
+      left: 0; right: 0;
+      bottom: 0;
+      background: #fff;
+      border-radius: 20px 20px 0 0;
+      padding: 22px 20px calc(env(safe-area-inset-bottom, 0px) + 22px);
+      z-index: 21;
+      transform: translateY(105%);
+      transition: transform 0.22s ease;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    #folha.aberta { transform: none; }
+    #folha h3 { color: var(--verde); margin-bottom: 16px; font-size: 1.15rem; }
+    #folha label {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--cinza);
+      margin: 12px 0 5px;
+    }
+    #folha input, #folha select {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      border: 1.5px solid #E3DDCF;
+      border-radius: 10px;
+      background: var(--creme);
+      color: var(--texto);
+      font-family: inherit;
+    }
+    #folha input:focus, #folha select:focus {
+      outline: 2px solid var(--verde);
+      outline-offset: 1px;
+      border-color: transparent;
+    }
+    #btnGuardar {
+      width: 100%;
+      margin-top: 18px;
+      padding: 14px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--creme);
+      background: var(--verde);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    #btnGuardar:active { background: var(--verde-claro); }
+
+    /* ===== Toast ===== */
+    #toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(var(--nav-altura) + env(safe-area-inset-bottom, 0px) + 20px);
+      transform: translateX(-50%) translateY(20px);
+      background: var(--texto);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+      z-index: 30;
+      white-space: nowrap;
+    }
+    #toast.visivel { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ===== Diagnóstico ===== */
     .linha {
       display: flex;
       justify-content: space-between;
@@ -77,99 +239,265 @@
     .estado { font-weight: 600; }
     .estado.ok { color: var(--ok); }
     .estado.erro { color: var(--erro); }
-    .estado.pendente { color: #8A968F; }
+    .estado.pendente { color: var(--cinza); }
 
     #btnInstalar {
       display: none;
       width: 100%;
-      max-width: 420px;
-      padding: 15px;
-      font-size: 1.05rem;
+      padding: 14px;
+      font-size: 1rem;
       font-weight: 600;
       color: var(--creme);
       background: var(--verde);
       border: none;
-      border-radius: 14px;
+      border-radius: 12px;
       cursor: pointer;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
-    #btnInstalar:active { background: var(--verde-claro); }
-
-    #dicaIos {
-      display: none;
-      background: var(--verde);
-      color: var(--creme);
-      font-size: 0.92rem;
-      line-height: 1.5;
-    }
+    #dicaIos { display: none; background: var(--verde); color: var(--creme); font-size: 0.9rem; line-height: 1.5; }
     #dicaIos h2 { color: rgba(245, 239, 224, 0.7); }
     #dicaIos strong { color: var(--ambar); }
 
-    .nota {
-      max-width: 420px;
-      font-size: 0.85rem;
-      color: #8A968F;
-      text-align: center;
-      line-height: 1.5;
+    /* ===== Navegação inferior ===== */
+    nav {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      height: calc(var(--nav-altura) + env(safe-area-inset-bottom, 0px));
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      background: #fff;
+      border-top: 1px solid #E8E2D4;
+      display: flex;
+      z-index: 10;
     }
+    nav button {
+      flex: 1;
+      border: none;
+      background: none;
+      font-family: inherit;
+      font-size: 0.7rem;
+      color: var(--cinza);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      padding-top: 6px;
+    }
+    nav button .ico { font-size: 1.3rem; line-height: 1; }
+    nav button.ativa { color: var(--verde); font-weight: 700; }
+    nav button:focus-visible { outline: 2px solid var(--verde); outline-offset: -2px; border-radius: 8px; }
   </style>
 </head>
 <body>
-  <header>
-    <img class="logo" src="icons/icon-192.png" alt="Ícone da app A Casa">
-    <h1>A Casa</h1>
-    <p>Página de teste da instalação PWA</p>
-  </header>
 
-  <!-- Diagnóstico: mostra se cada requisito de PWA está a funcionar -->
-  <div class="cartao">
-    <h2>Diagnóstico PWA</h2>
-    <div class="linha">
-      <span>Ligação HTTPS</span>
-      <span id="chkHttps" class="estado pendente">a verificar…</span>
-    </div>
-    <div class="linha">
-      <span>Manifest carregado</span>
-      <span id="chkManifest" class="estado pendente">a verificar…</span>
-    </div>
-    <div class="linha">
-      <span>Service worker ativo</span>
-      <span id="chkSw" class="estado pendente">a verificar…</span>
-    </div>
-    <div class="linha">
-      <span>A correr como app instalada</span>
-      <span id="chkStandalone" class="estado pendente">a verificar…</span>
-    </div>
+  <div class="topo">
+    <img src="icons/icon-192.png" alt="">
+    <h1 id="tituloTopo">Despesas</h1>
+    <span id="badgeOffline">offline</span>
   </div>
 
-  <!-- Só aparece no Android/Chrome quando o browser dispara beforeinstallprompt -->
-  <button id="btnInstalar">Instalar no telemóvel</button>
+  <main>
+    <!-- ===== ABA: DESPESAS ===== -->
+    <section id="aba-despesas" class="aba ativa">
+      <div class="cartao resumo">
+        <div class="valor" id="total">0,00 €</div>
+        <div class="legenda">total de despesas partilhadas</div>
+        <div class="porpessoa" id="porPessoa"></div>
+      </div>
+      <div class="cartao">
+        <h2>Movimentos</h2>
+        <div id="lista"></div>
+        <p id="listaVazia">Ainda não há despesas. Toca no + para adicionar a primeira.</p>
+      </div>
+    </section>
 
-  <!-- Só aparece no iPhone/iPad -->
-  <div id="dicaIos" class="cartao">
-    <h2>Instalar no iPhone</h2>
-    <p>O Safari não mostra botão de instalação. Toca no ícone de <strong>partilha</strong> (quadrado com seta, em baixo) e escolhe <strong>«Adicionar ao ecrã principal»</strong>.</p>
+    <!-- ===== ABA: CASA ===== -->
+    <section id="aba-casa" class="aba">
+      <div class="cartao">
+        <h2>Renda de julho</h2>
+        <div class="linha"><span>🛏️ Quarto 1 — Tu</span><span class="estado ok">✓ paga</span></div>
+        <div class="linha"><span>🛏️ Quarto 2 — João</span><span class="estado ok">✓ paga</span></div>
+        <div class="linha"><span>🛏️ Quarto 3 — Marta</span><span class="estado pendente">pendente</span></div>
+      </div>
+      <div class="cartao">
+        <h2>Avisos do senhorio</h2>
+        <p style="font-size:0.92rem; line-height:1.5; color:#5C6B66;">📌 Na quinta-feira vem o técnico ver o esquentador, entre as 14h e as 16h. Se alguém puder estar em casa, avisem.</p>
+      </div>
+      <p style="font-size:0.8rem; color:var(--cinza); text-align:center; padding:0 10px;">Esta aba é uma maquete estática — na app a sério, estes dados viriam do backend.</p>
+    </section>
+
+    <!-- ===== ABA: DIAGNÓSTICO ===== -->
+    <section id="aba-diag" class="aba">
+      <button id="btnInstalar">Instalar no telemóvel</button>
+      <div id="dicaIos" class="cartao">
+        <h2>Instalar no iPhone</h2>
+        <p>O Safari não mostra botão de instalação. Toca no ícone de <strong>partilha</strong> (quadrado com seta) e escolhe <strong>«Adicionar ao ecrã principal»</strong>.</p>
+      </div>
+      <div class="cartao">
+        <h2>Diagnóstico PWA</h2>
+        <div class="linha"><span>Ligação HTTPS</span><span id="chkHttps" class="estado pendente">…</span></div>
+        <div class="linha"><span>Manifest carregado</span><span id="chkManifest" class="estado pendente">…</span></div>
+        <div class="linha"><span>Service worker ativo</span><span id="chkSw" class="estado pendente">…</span></div>
+        <div class="linha"><span>A correr como app instalada</span><span id="chkStandalone" class="estado pendente">…</span></div>
+      </div>
+      <p style="font-size:0.85rem; color:var(--cinza); text-align:center; line-height:1.5;">Instala a app e abre pelo ícone: o último ponto deve mudar para «sim». As despesas que adicionares ficam guardadas no telemóvel, mesmo offline.</p>
+    </section>
+  </main>
+
+  <!-- Botão flutuante para adicionar despesa -->
+  <button id="fab" aria-label="Adicionar despesa">+</button>
+
+  <!-- Folha deslizante com o formulário -->
+  <div id="veu"></div>
+  <div id="folha" role="dialog" aria-label="Nova despesa">
+    <h3>Nova despesa</h3>
+    <label for="inDesc">O que compraste?</label>
+    <input id="inDesc" type="text" placeholder="Compras do Pingo Doce" maxlength="40">
+    <label for="inValor">Quanto custou?</label>
+    <input id="inValor" type="number" inputmode="decimal" placeholder="12,50" min="0" step="0.01">
+    <label for="inQuem">Quem pagou?</label>
+    <select id="inQuem">
+      <option>Tu</option>
+      <option>João</option>
+      <option>Marta</option>
+    </select>
+    <button id="btnGuardar">Adicionar despesa</button>
   </div>
 
-  <p class="nota">Se todos os pontos estiverem a verde e instalares a app, ao abrires pelo ícone o último ponto deve mudar para «sim» — e a página abre sem a barra do browser.</p>
+  <div id="toast"></div>
+
+  <nav>
+    <button data-aba="despesas" class="ativa"><span class="ico">💶</span>Despesas</button>
+    <button data-aba="casa"><span class="ico">🏠</span>Casa</button>
+    <button data-aba="diag"><span class="ico">⚙️</span>Instalação</button>
+  </nav>
 
   <script>
+    // ===================== Utilitários =====================
+    const $ = (id) => document.getElementById(id);
+    const euros = (n) => n.toFixed(2).replace(".", ",") + " €";
+    const vibrar = (ms) => { if (navigator.vibrate) navigator.vibrate(ms); };
+
+    let toastTimer;
+    const toast = (msg) => {
+      const t = $("toast");
+      t.textContent = msg;
+      t.classList.add("visivel");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.remove("visivel"), 2200);
+    };
+
+    // ===================== Navegação por abas =====================
+    const titulos = { despesas: "Despesas", casa: "A Casa", diag: "Instalação" };
+    document.querySelectorAll("nav button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("nav button").forEach((b) => b.classList.remove("ativa"));
+        document.querySelectorAll(".aba").forEach((a) => a.classList.remove("ativa"));
+        btn.classList.add("ativa");
+        $("aba-" + btn.dataset.aba).classList.add("ativa");
+        $("tituloTopo").textContent = titulos[btn.dataset.aba];
+        $("fab").style.display = btn.dataset.aba === "despesas" ? "block" : "none";
+        vibrar(8);
+        window.scrollTo({ top: 0 });
+      });
+    });
+
+    // ===================== Despesas (guardadas no telemóvel) =====================
+    const ICONES = ["🛒", "💡", "🧻", "🍕", "🧼", "📶"];
+    let despesas = [];
+    try { despesas = JSON.parse(localStorage.getItem("despesas") || "[]"); } catch (e) {}
+
+    const guardar = () => localStorage.setItem("despesas", JSON.stringify(despesas));
+
+    const desenhar = () => {
+      const lista = $("lista");
+      lista.innerHTML = "";
+      $("listaVazia").style.display = despesas.length ? "none" : "block";
+      let total = 0;
+      despesas.forEach((d, i) => {
+        total += d.valor;
+        const div = document.createElement("div");
+        div.className = "despesa";
+        div.innerHTML =
+          '<div class="icone">' + d.icone + "</div>" +
+          '<div class="info"><div class="nome"></div><div class="quem"></div></div>' +
+          '<span class="preco">' + euros(d.valor) + "</span>" +
+          '<button class="apagar" aria-label="Apagar despesa">✕</button>';
+        div.querySelector(".nome").textContent = d.desc;
+        div.querySelector(".quem").textContent = "pagou: " + d.quem + " · " + d.data;
+        div.querySelector(".apagar").addEventListener("click", () => {
+          despesas.splice(i, 1);
+          guardar();
+          desenhar();
+          vibrar(15);
+          toast("Despesa apagada");
+        });
+        lista.appendChild(div);
+      });
+      $("total").textContent = euros(total);
+      $("porPessoa").textContent = total > 0 ? euros(total / 3) + " por pessoa (3 na casa)" : "";
+    };
+    desenhar();
+
+    // ===================== Folha de nova despesa =====================
+    const abrirFolha = () => {
+      $("veu").style.display = "block";
+      $("folha").classList.add("aberta");
+      setTimeout(() => $("inDesc").focus(), 250);
+    };
+    const fecharFolha = () => {
+      $("veu").style.display = "none";
+      $("folha").classList.remove("aberta");
+    };
+    $("fab").addEventListener("click", () => { vibrar(10); abrirFolha(); });
+    $("veu").addEventListener("click", fecharFolha);
+
+    $("btnGuardar").addEventListener("click", () => {
+      const desc = $("inDesc").value.trim();
+      const valor = parseFloat(($("inValor").value || "").replace(",", "."));
+      if (!desc || !valor || valor <= 0) {
+        toast("Preenche a descrição e um valor válido");
+        vibrar([20, 40, 20]);
+        return;
+      }
+      despesas.unshift({
+        desc,
+        valor,
+        quem: $("inQuem").value,
+        icone: ICONES[Math.floor(Math.random() * ICONES.length)],
+        data: new Date().toLocaleDateString("pt-PT", { day: "numeric", month: "short" })
+      });
+      guardar();
+      desenhar();
+      fecharFolha();
+      $("inDesc").value = "";
+      $("inValor").value = "";
+      vibrar(25);
+      toast("Despesa adicionada ✓");
+    });
+
+    // ===================== Estado online/offline =====================
+    const atualizarRede = () => {
+      $("badgeOffline").style.display = navigator.onLine ? "none" : "inline-block";
+    };
+    window.addEventListener("online", () => { atualizarRede(); toast("Ligação recuperada"); });
+    window.addEventListener("offline", () => { atualizarRede(); toast("Estás offline — a app continua a funcionar"); });
+    atualizarRede();
+
+    // ===================== Diagnóstico PWA =====================
     const marcar = (id, ok, textoOk, textoErro) => {
-      const el = document.getElementById(id);
+      const el = $(id);
       el.textContent = ok ? textoOk : textoErro;
       el.className = "estado " + (ok ? "ok" : "erro");
     };
 
-    // 1. HTTPS (localhost também conta como seguro)
     marcar("chkHttps", window.isSecureContext, "✓ sim", "✗ não");
 
-    // 2. Manifest
-    const temManifest = !!document.querySelector('link[rel="manifest"]');
     fetch("manifest.json")
-      .then(r => marcar("chkManifest", r.ok && temManifest, "✓ sim", "✗ não"))
+      .then((r) => marcar("chkManifest", r.ok, "✓ sim", "✗ não"))
       .catch(() => marcar("chkManifest", false, "", "✗ não"));
 
-    // 3. Service worker
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("sw.js")
         .then(() => navigator.serviceWorker.ready)
@@ -179,41 +507,33 @@
       marcar("chkSw", false, "", "✗ não suportado");
     }
 
-    // 4. Modo standalone (aberto a partir do ícone, sem barra do browser)
     const standalone =
       window.matchMedia("(display-mode: standalone)").matches ||
-      window.navigator.standalone === true; // iOS antigo
+      window.navigator.standalone === true;
     marcar("chkStandalone", standalone, "✓ sim", "ainda no browser");
-    if (!standalone) {
-      // "ainda no browser" não é um erro — pinta de cinzento
-      document.getElementById("chkStandalone").className = "estado pendente";
-    }
+    if (!standalone) $("chkStandalone").className = "estado pendente";
 
     // Botão de instalação (Android/Chrome)
     let promptGuardado = null;
     window.addEventListener("beforeinstallprompt", (e) => {
       e.preventDefault();
       promptGuardado = e;
-      document.getElementById("btnInstalar").style.display = "block";
+      $("btnInstalar").style.display = "block";
     });
-    document.getElementById("btnInstalar").addEventListener("click", async () => {
+    $("btnInstalar").addEventListener("click", async () => {
       if (!promptGuardado) return;
       promptGuardado.prompt();
       const escolha = await promptGuardado.userChoice;
-      if (escolha.outcome === "accepted") {
-        document.getElementById("btnInstalar").style.display = "none";
-      }
+      if (escolha.outcome === "accepted") $("btnInstalar").style.display = "none";
       promptGuardado = null;
     });
     window.addEventListener("appinstalled", () => {
-      document.getElementById("btnInstalar").style.display = "none";
+      $("btnInstalar").style.display = "none";
+      toast("App instalada 🎉");
     });
 
-    // Dica para iOS (só se ainda não estiver instalada)
     const ehIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
-    if (ehIos && !standalone) {
-      document.getElementById("dicaIos").style.display = "block";
-    }
+    if (ehIos && !standalone) $("dicaIos").style.display = "block";
   </script>
 </body>
 </html>
