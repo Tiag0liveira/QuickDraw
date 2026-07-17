@@ -1,33 +1,24 @@
 {
-  "name": "Quick Draw",
-  "short_name": "QuickDraw",
-  "start_url": "/QuickDraw/",
+  "name": "A Casa — Teste PWA",
+  "short_name": "A Casa",
+  "description": "Teste de instalação PWA para a app da casa partilhada",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "background_color": "#14453D",
+  "theme_color": "#14453D",
   "icons": [
     {
-      "src": "/QuickDraw/favicon/android-chrome-192x192.png",
+      "src": "icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "/QuickDraw/favicon/android-chrome-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "/QuickDraw/screenshots/screenshot1.png",
-      "sizes": "920x480",
       "type": "image/png",
-      "form_factor": "wide"
+      "purpose": "any maskable"
     },
     {
-      "src": "/QuickDraw/screenshots/screenshot2.png",
-      "sizes": "920x480",
-      "type": "image/png"
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
